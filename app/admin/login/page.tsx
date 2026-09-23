@@ -66,7 +66,7 @@ function LoginForm() {
           disabled={sending}
           className="mt-6 w-full rounded-sm bg-brand py-3 text-sm font-semibold text-white disabled:opacity-60"
         >
-          {sending ? "Signing in…" : "Enter dashboard"}
+          {sending ? "Logging in…" : "Login"}
         </button>
       </form>
     </div>

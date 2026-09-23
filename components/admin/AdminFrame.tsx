@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { clearToken, cmsFetch, getToken } from "@/lib/api";
 
@@ -25,14 +25,42 @@ export function AdminFrame({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const websiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const [ready, setReady] = useState(false);
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
-    if (pathname === "/admin/login") return;
-    if (!getToken()) router.replace("/admin/login");
+    let cancelled = false;
+    if (!getToken()) {
+      if (pathname !== "/admin/login") router.replace("/admin/login");
+      return;
+    }
+    cmsFetch("/api/auth/session")
+      .then(async (res) => {
+        if (cancelled) return;
+        if (!res.ok) {
+          clearToken();
+          if (pathname !== "/admin/login") router.replace("/admin/login");
+          return;
+        }
+        const json = await res.json();
+        setUsername(json.username || "");
+        setReady(true);
+        if (pathname === "/admin/login") router.replace("/admin");
+      })
+      .catch(() => {
+        if (!cancelled && pathname !== "/admin/login") router.replace("/admin/login");
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [pathname, router]);
 
   if (pathname === "/admin/login") {
     return <>{children}</>;
+  }
+
+  if (!ready) {
+    return <p className="p-8 text-sm text-muted">Checking session…</p>;
   }
 
   async function logout() {
@@ -48,6 +76,7 @@ export function AdminFrame({ children }: { children: React.ReactNode }) {
         <div className="border-b border-white/10 px-5 py-5">
           <p className="text-[11px] uppercase tracking-[0.22em] text-accent">CMS</p>
           <p className="mt-1 font-semibold">Sheger Admin</p>
+          {username ? <p className="mt-1 text-xs text-white/60">{username}</p> : null}
         </div>
         <nav className="flex-1 space-y-1 p-3">
           {links.map((link) => {

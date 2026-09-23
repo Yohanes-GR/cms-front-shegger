@@ -27,6 +27,7 @@ export async function cmsFetch(path: string, init: RequestInit = {}) {
   const json = !(init.body instanceof FormData);
   const response = await fetch(`${cmsApiUrl()}${path}`, {
     ...init,
+    credentials: "include",
     headers: {
       ...authHeaders(json),
       ...(init.headers || {}),
