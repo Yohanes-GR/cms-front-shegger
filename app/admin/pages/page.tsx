@@ -9,6 +9,8 @@ const keys = [
   ["projects", "Projects"],
   ["contact", "Contact"],
   ["realEstate", "Real estate"],
+  ["news", "News & Insights"],
+  ["careers", "Careers"],
 ] as const;
 
 export default function AdminPagesPage() {

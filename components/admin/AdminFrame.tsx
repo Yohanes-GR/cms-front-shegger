@@ -13,9 +13,12 @@ const links = [
   { href: "/admin/pages", label: "Page copy" },
   { href: "/admin/services", label: "Services" },
   { href: "/admin/projects", label: "Projects" },
+  { href: "/admin/news", label: "News & Insights" },
+  { href: "/admin/careers", label: "Careers" },
   { href: "/admin/listings", label: "Real estate" },
   { href: "/admin/partners", label: "Partners" },
   { href: "/admin/media", label: "Media" },
+  { href: "/admin/users", label: "Users" },
 ];
 
 export function AdminFrame({ children }: { children: React.ReactNode }) {

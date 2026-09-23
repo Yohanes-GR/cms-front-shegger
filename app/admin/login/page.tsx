@@ -8,6 +8,7 @@ import { cmsFetch, setToken } from "@/lib/api";
 function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
@@ -18,7 +19,7 @@ function LoginForm() {
     setError("");
     const res = await cmsFetch("/api/auth/login", {
       method: "POST",
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ username, password }),
     });
     const json = await res.json();
     if (!res.ok) {
@@ -41,12 +42,16 @@ function LoginForm() {
         <p className="mt-2 text-sm text-muted">
           This editor writes to cms-back. The public website only reads from cms-back.
         </p>
-        {process.env.NODE_ENV !== "production" && (
-          <p className="mt-2 text-sm text-muted">
-            Default password: <code>ShegerAdmin@2026</code>
-          </p>
-        )}
         <label className="mt-6 grid gap-1 text-sm">
+          <span className="font-medium">Username</span>
+          <input
+            value={username}
+            autoComplete="username"
+            onChange={(e) => setUsername(e.target.value)}
+            className="rounded-sm border border-black/10 px-3 py-2.5 outline-none focus:border-accent"
+          />
+        </label>
+        <label className="mt-4 grid gap-1 text-sm">
           <span className="font-medium">Password</span>
           <input
             type="password"

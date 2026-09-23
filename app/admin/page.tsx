@@ -10,6 +10,8 @@ const cards = [
   { href: "/admin/pages", title: "Page copy", text: "Services, projects, contact, real estate." },
   { href: "/admin/services", title: "Services", text: "Add, edit, and nest divisions." },
   { href: "/admin/projects", title: "Projects", text: "Portfolio items." },
+  { href: "/admin/news", title: "News & Insights", text: "Articles with a photo, headline, and text." },
+  { href: "/admin/careers", title: "Careers", text: "Open roles with a photo and description." },
   { href: "/admin/listings", title: "Real estate", text: "Finfine market listings." },
   { href: "/admin/partners", title: "Partners", text: "Client and partner logos." },
   { href: "/admin/media", title: "Media", text: "Upload images and motion video." },
